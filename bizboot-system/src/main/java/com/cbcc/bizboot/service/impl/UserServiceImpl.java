@@ -7,7 +7,6 @@ import com.cbcc.bizboot.repository.UserRepository;
 import com.cbcc.bizboot.repository.UserRoleRepository;
 import com.cbcc.bizboot.service.UserService;
 import com.google.common.collect.Sets;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +23,14 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRoleRepository userRoleRepository;
+    private final UserRoleRepository userRoleRepository;
+
+    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository) {
+        this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
+    }
 
     @Override
     public Page<User> find(User user, Pageable pageable) {

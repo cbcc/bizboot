@@ -9,9 +9,9 @@ import com.cbcc.bizboot.util.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Base64;
 import java.util.List;
 
 @Tag(name = "用户接口")
@@ -29,8 +30,14 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Operation(summary = "分页查询")
     @GetMapping
@@ -49,6 +56,9 @@ public class UserController {
     User create(@Valid @RequestBody UserModel userModel) {
         User user = BeanUtils.newAndCopy(userModel, User.class);
         user.setDept(new Dept(userModel.getDeptId()));
+        String password = new String(Base64.getDecoder().decode(user.getPassword()));
+        // 密码加密
+        user.setPassword(passwordEncoder.encode(password));
         return userService.create(user);
     }
 

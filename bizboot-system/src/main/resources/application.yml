@@ -18,3 +18,14 @@ spring:
 
 logging:
   path: log
+
+bizboot:
+  jwt:
+    access-token:
+      secret-key: "myaccesssecretkey1234567890abcdefghijkl"
+      # 过期时间：8小时
+      duration: 8
+    refresh-token:
+      secret-key: "myrefreshsecretkey1234567890mnopqrstuv"
+      # 过期时间：7天
+      duration: 192
