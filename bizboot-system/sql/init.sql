@@ -59,6 +59,37 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8 COMMENT='菜单表';
 
+-- 菜单表
+CREATE TABLE `menu` (
+  `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `type` TINYINT UNSIGNED NOT NULL COMMENT '类型 1-菜单 2-iframe 3-外链 4-按钮',
+  `parent_id` INT(16) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上级菜单Id',
+  `title` VARCHAR(32) NOT NULL COMMENT '标题',
+  `name` VARCHAR(32) NULL COMMENT '路由名称',
+  `path` VARCHAR(255) NULL COMMENT '路由路径',
+  `component` VARCHAR(255) NULL COMMENT '组件路径',
+  `icon` VARCHAR(32) NULL COMMENT '图标',
+  `extra_icon` VARCHAR(32) NULL COMMENT '右侧图标',
+  `enter_transition` VARCHAR(32) NULL COMMENT '进场动画',
+  `leave_transition` VARCHAR(32) NULL COMMENT '离场动画',
+  `active_path` VARCHAR(255) NULL COMMENT '菜单激活',
+  `redirect` VARCHAR(255) NULL COMMENT '路由重定向',
+  `auths` VARCHAR(64) NULL COMMENT '按钮权限标识',
+  `frame_src` VARCHAR(255) NULL COMMENT 'iframe 链接地址',
+  `frame_loading` VARCHAR(32) NULL COMMENT 'iframe 加载动画',
+  `keep_alive` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否缓存页面',
+  `hidden_tag` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否显示标签页',
+  `fixed_tag` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否固定标签页',
+  `show_link` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否显示该菜单',
+  `show_parent` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否显示父级菜单',
+  `sort` INT(4) NOT NULL DEFAULT 1 COMMENT '排序',
+  `created_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `created_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '创建人账号',
+  `last_modified_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `last_modified_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '最后修改人账号',
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8 COMMENT='菜单表';
+
 -- 角色菜单关联表
 CREATE TABLE `role_menu` (
   `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',

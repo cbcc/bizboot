@@ -1,12 +1,12 @@
 package com.cbcc.bizboot.service;
 
 import com.cbcc.bizboot.entity.Menu;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface MenuService {
 
-    Page<Menu> find(Menu menu, Pageable pageable);
+    List<Menu> find(Menu menu);
 
     Menu get(long id);
 
