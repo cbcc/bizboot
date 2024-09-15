@@ -15,9 +15,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  jackson:
+    default-property-inclusion: non_null
 
 logging:
   path: log
+  level:
+    root: info
 
 bizboot:
   jwt:

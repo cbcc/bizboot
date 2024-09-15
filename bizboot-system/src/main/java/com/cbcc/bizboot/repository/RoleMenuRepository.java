@@ -8,4 +8,6 @@ import java.util.List;
 public interface RoleMenuRepository extends JpaRepository<RoleMenu, Long> {
 
     List<RoleMenu> findByRoleId(long roleId);
+
+    List<RoleMenu> findByRoleIdIn(Iterable<Long> roleIds);
 }
