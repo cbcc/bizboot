@@ -76,7 +76,7 @@ CREATE TABLE `menu` (
   `redirect` VARCHAR(255) NULL COMMENT '路由重定向',
   `auths` VARCHAR(64) NULL COMMENT '按钮权限标识',
   `frame_src` VARCHAR(255) NULL COMMENT 'iframe 链接地址',
-  `frame_loading` VARCHAR(32) NULL COMMENT 'iframe 加载动画',
+  `frame_loading` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'iframe 是否加载动画',
   `keep_alive` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否缓存页面',
   `hidden_tag` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否显示标签页',
   `fixed_tag` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否固定标签页',

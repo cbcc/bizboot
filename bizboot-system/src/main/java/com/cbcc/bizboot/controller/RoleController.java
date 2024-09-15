@@ -8,7 +8,6 @@ import com.cbcc.bizboot.util.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,13 +20,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Tag(name = "角色接口")
 @RestController
 @RequestMapping("/api/roles")
 public class RoleController {
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
+
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @Operation(summary = "分页查询")
     @GetMapping
@@ -60,6 +64,18 @@ public class RoleController {
     @PatchMapping("/{id}/enabled")
     void updateEnabled(@PathVariable Long id, @RequestBody EnabledModel enabledModel) {
         roleService.updateEnabled(id, enabledModel.getEnabled());
+    }
+
+    @Operation(summary = "查询角色菜单 id 列表")
+    @GetMapping("/{id}/menus")
+    List<Long> getRoleIds(@PathVariable Long id) {
+        return roleService.getMenuIds(id);
+    }
+
+    @Operation(summary = "修改角色菜单")
+    @PatchMapping("/{id}/menus")
+    void updateRoles(@PathVariable Long id, @RequestBody List<Long> menuIds) {
+        roleService.updateMenus(id, menuIds);
     }
 
     @Operation(summary = "删除")

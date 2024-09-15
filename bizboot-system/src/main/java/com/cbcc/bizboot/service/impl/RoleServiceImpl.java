@@ -1,10 +1,12 @@
 package com.cbcc.bizboot.service.impl;
 
 import com.cbcc.bizboot.entity.Role;
+import com.cbcc.bizboot.entity.RoleMenu;
 import com.cbcc.bizboot.exception.BadRequestException;
+import com.cbcc.bizboot.repository.RoleMenuRepository;
 import com.cbcc.bizboot.repository.RoleRepository;
 import com.cbcc.bizboot.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.common.collect.Sets;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,13 +14,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    private final RoleMenuRepository roleMenuRepository;
+
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMenuRepository roleMenuRepository) {
+        this.roleRepository = roleRepository;
+        this.roleMenuRepository = roleMenuRepository;
+    }
 
     @Override
     public Page<Role> find(Role role, Pageable pageable) {
@@ -59,6 +70,33 @@ public class RoleServiceImpl implements RoleService {
             throw new BadRequestException(MessageFormat.format("角色不存在. id = {0}", id));
         }
         roleRepository.updateEnabledById(id, enabled);
+    }
+
+    @Override
+    public List<Long> getMenuIds(long id) {
+        List<RoleMenu> roleMenus = roleMenuRepository.findByRoleId(id);
+        return roleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void updateMenus(long id, List<Long> menuIds) {
+        boolean existed = roleRepository.existsById(id);
+        if (!existed) {
+            throw new BadRequestException(MessageFormat.format("角色不存在. id = {0}", id));
+        }
+        List<RoleMenu> existedRoleMenus = roleMenuRepository.findByRoleId(id);
+        Set<Long> existedMenuIds =
+                existedRoleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toSet());
+        Set<Long> toGrantMenuIds = Sets.difference(Sets.newHashSet(menuIds), existedMenuIds);
+
+        List<RoleMenu> toCreate = toGrantMenuIds.stream().map(it -> new RoleMenu(id, it))
+                .collect(Collectors.toList());
+        List<RoleMenu> toDelete = existedRoleMenus.stream().filter(it -> !menuIds.contains(it.getMenuId()))
+                .collect(Collectors.toList());
+
+        roleMenuRepository.deleteAll(toDelete);
+        roleMenuRepository.saveAll(toCreate);
     }
 
     @Override

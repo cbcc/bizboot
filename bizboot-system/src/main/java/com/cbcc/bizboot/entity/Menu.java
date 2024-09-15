@@ -56,8 +56,8 @@ public class Menu extends BaseEntity {
     @Schema(title = "iframe 链接地址")
     private String frameSrc;
 
-    @Schema(title = "iframe 加载动画")
-    private String frameLoading;
+    @Schema(title = "iframe 是否加载动画")
+    private Boolean frameLoading;
 
     @Schema(title = "是否缓存页面")
     private Boolean keepAlive;
