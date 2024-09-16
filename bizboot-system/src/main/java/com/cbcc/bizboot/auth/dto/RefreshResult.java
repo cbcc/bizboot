@@ -2,15 +2,13 @@ package com.cbcc.bizboot.auth.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-public class AuthDto {
+public class RefreshResult {
 
     @Schema(title = "访问令牌")
     private String accessToken;

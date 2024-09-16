@@ -2,11 +2,9 @@ package com.cbcc.bizboot.auth.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class RefreshRequest {
 
     @NotBlank(message = "[refreshToken]不能为空")

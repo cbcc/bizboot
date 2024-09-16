@@ -19,9 +19,6 @@ import lombok.Setter;
 )
 public class User extends BaseEntity {
 
-    @Schema(title = "uid")
-    private String uid;
-
     @Schema(title = "用户名")
     private String username;
 

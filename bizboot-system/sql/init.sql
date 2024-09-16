@@ -1,7 +1,6 @@
 -- 用户表
 CREATE TABLE `user` (
   `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `uid` VARCHAR(32) NOT NULL COMMENT 'uid',
   `username` VARCHAR(32) NOT NULL COMMENT '用户名',
   `nickname` VARCHAR(64) NULL COMMENT '昵称',
   `gender` TINYINT UNSIGNED NULL COMMENT '性别 1-男 2-女',
@@ -15,7 +14,7 @@ CREATE TABLE `user` (
   `last_modified_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   `last_modified_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '最后修改人账号',
   PRIMARY KEY (`id`),
-  UNIQUE `uid`(`uid`)
+  UNIQUE `username`(`username`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8 COMMENT='用户表';
 
 -- 角色表

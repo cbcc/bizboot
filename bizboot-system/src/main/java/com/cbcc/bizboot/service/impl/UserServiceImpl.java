@@ -2,7 +2,9 @@ package com.cbcc.bizboot.service.impl;
 
 import com.cbcc.bizboot.entity.User;
 import com.cbcc.bizboot.entity.UserRole;
+import com.cbcc.bizboot.entity.bo.UserInfo;
 import com.cbcc.bizboot.exception.BadRequestException;
+import com.cbcc.bizboot.exception.ServiceException;
 import com.cbcc.bizboot.repository.UserRepository;
 import com.cbcc.bizboot.repository.UserRoleRepository;
 import com.cbcc.bizboot.service.UserService;
@@ -17,7 +19,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +31,24 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+    }
+
+    @Override
+    public UserInfo getUserInfo(String username) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isEmpty()) {
+            throw new ServiceException("查询用户信息失败");
+        }
+        User user = optionalUser.get();
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(user.getId());
+        userInfo.setUsername(user.getUsername());
+        userInfo.setNickname(user.getNickname());
+        userInfo.setGender(user.getGender());
+        userInfo.setPhone(user.getPhone());
+        userInfo.setEmail(user.getEmail());
+        userInfo.setDeptName(user.getDept().getName());
+        return userInfo;
     }
 
     @Override
@@ -51,9 +70,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        // todo: 改进生成 uid 方式
-        String uid = UUID.randomUUID().toString().replace("-", "");
-        user.setUid(uid);
         return userRepository.save(user);
     }
 
