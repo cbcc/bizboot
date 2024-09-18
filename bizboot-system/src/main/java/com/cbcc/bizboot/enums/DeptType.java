@@ -2,9 +2,9 @@ package com.cbcc.bizboot.enums;
 
 public enum DeptType {
 
-    HEAD(1),
-    BRANCH(2),
-    DEPT(3);
+    HEAD(0),
+    BRANCH(1),
+    DEPT(2);
 
     final int key;
 

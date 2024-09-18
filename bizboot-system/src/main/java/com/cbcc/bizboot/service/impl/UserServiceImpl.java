@@ -75,6 +75,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
+        String username = user.getUsername();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            throw new BadRequestException(MessageFormat.format("用户名称已存在. username = {0}", username));
+        }
         return userRepository.save(user);
     }
 

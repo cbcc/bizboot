@@ -1,11 +1,11 @@
 -- 用户表
 CREATE TABLE `user` (
   `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `username` VARCHAR(32) NOT NULL COMMENT '用户名',
-  `nickname` VARCHAR(64) NULL COMMENT '昵称',
+  `username` VARCHAR(16) NOT NULL COMMENT '用户名',
+  `nickname` VARCHAR(16) NULL COMMENT '昵称',
   `gender` TINYINT UNSIGNED NULL COMMENT '性别 1-男 2-女',
   `dept_id` INT(16) UNSIGNED NOT NULL COMMENT '部门Id',
-  `phone` VARCHAR(32) NOT NULL COMMENT '手机',
+  `phone` VARCHAR(16) NOT NULL COMMENT '手机',
   `email` VARCHAR(64) NULL COMMENT '邮箱',
   `password` VARCHAR(128) NOT NULL COMMENT '密码',
   `enabled` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否启用 0-停用 1-启用',
@@ -20,9 +20,9 @@ CREATE TABLE `user` (
 -- 角色表
 CREATE TABLE `role` (
   `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `name` VARCHAR(32) NOT NULL COMMENT '名称',
-  `code` VARCHAR(32) NOT NULL COMMENT '编码',
-  `remark` VARCHAR(255) NULL COMMENT '备注',
+  `name` VARCHAR(16) NOT NULL COMMENT '名称',
+  `code` VARCHAR(16) NOT NULL COMMENT '编码',
+  `remark` VARCHAR(64) NULL COMMENT '备注',
   `enabled` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否启用 0-停用 1-启用',
   `created_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `created_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '创建人账号',
@@ -46,24 +46,9 @@ CREATE TABLE `user_role` (
 -- 菜单表
 CREATE TABLE `menu` (
   `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `parent_id` INT(16) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上级菜单Id',
-  `title` VARCHAR(64) NOT NULL COMMENT '名称',
-  `path` VARCHAR(255) NOT NULL COMMENT '路径',
-  `sort` INT(4) NULL COMMENT '排序',
-  `enabled` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否启用 0-停用 1-启用',
-  `created_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `created_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '创建人账号',
-  `last_modified_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  `last_modified_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '最后修改人账号',
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8 COMMENT='菜单表';
-
--- 菜单表
-CREATE TABLE `menu` (
-  `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `type` TINYINT UNSIGNED NOT NULL COMMENT '类型 1-菜单 2-iframe 3-外链 4-按钮',
   `parent_id` INT(16) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上级菜单Id',
-  `title` VARCHAR(32) NOT NULL COMMENT '标题',
+  `title` VARCHAR(16) NOT NULL COMMENT '标题',
   `name` VARCHAR(32) NULL COMMENT '路由名称',
   `path` VARCHAR(255) NULL COMMENT '路由路径',
   `component` VARCHAR(255) NULL COMMENT '组件路径',
@@ -73,7 +58,7 @@ CREATE TABLE `menu` (
   `leave_transition` VARCHAR(32) NULL COMMENT '离场动画',
   `active_path` VARCHAR(255) NULL COMMENT '菜单激活',
   `redirect` VARCHAR(255) NULL COMMENT '路由重定向',
-  `auths` VARCHAR(64) NULL COMMENT '按钮权限标识',
+  `auths` VARCHAR(32) NULL COMMENT '按钮权限标识',
   `frame_src` VARCHAR(255) NULL COMMENT 'iframe 链接地址',
   `frame_loading` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'iframe 是否加载动画',
   `keep_alive` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否缓存页面',
@@ -105,7 +90,7 @@ CREATE TABLE `role_menu` (
 CREATE TABLE `dept` (
   `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `parent_id` INT(16) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上级部门Id',
-  `name` VARCHAR(64) NOT NULL COMMENT '名称',
+  `name` VARCHAR(32) NOT NULL COMMENT '名称',
   `type` TINYINT UNSIGNED NOT NULL COMMENT '类型 1-总公司 2-分公司 3-部门',
   `sort` INT(4) NULL COMMENT '排序',
   `enabled` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否启用 0-停用 1-启用',

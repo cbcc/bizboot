@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -23,16 +25,20 @@ public class MenuModel {
     @Schema(title = "上级菜单Id")
     private Long parentId;
 
+    @Size(max = 16, message = "[title]最大长度为16")
     @NotBlank(message = "[title]不能为空")
     @Schema(title = "标题")
     private String title;
 
+    @Size(max = 30, message = "[name]最大长度为30")
     @Schema(title = "路由名称")
     private String name;
 
+    @Size(max = 250, message = "[path]最大长度为250")
     @Schema(title = "路由路径")
     private String path;
 
+    @Size(max = 250, message = "[component]最大长度为250")
     @Schema(title = "组件路径")
     private String component;
 
@@ -48,15 +54,19 @@ public class MenuModel {
     @Schema(title = "离场动画")
     private String leaveTransition;
 
+    @Size(max = 250, message = "[activePath]最大长度为250")
     @Schema(title = "菜单激活")
     private String activePath;
 
+    @Size(max = 250, message = "[redirect]最大长度为250")
     @Schema(title = "路由重定向")
     private String redirect;
 
+    @Size(max = 30, message = "[auths]最大长度为30")
     @Schema(title = "按钮权限标识")
     private String auths;
 
+    @Size(max = 250, message = "[frameSrc]最大长度为250")
     @Schema(title = "iframe 链接地址")
     private String frameSrc;
 
@@ -78,6 +88,7 @@ public class MenuModel {
     @Schema(title = "是否显示父级菜单")
     private Boolean showParent;
 
+    @Positive(message = "[sort]必须大于0")
     @Schema(title = "排序")
     private Integer sort;
 }
