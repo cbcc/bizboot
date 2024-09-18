@@ -1,10 +1,11 @@
 package com.cbcc.bizboot.service.impl;
 
 import com.cbcc.bizboot.entity.Menu;
+import com.cbcc.bizboot.entity.dto.MenuQueryDTO;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.repository.MenuRepository;
 import com.cbcc.bizboot.service.MenuService;
-import org.springframework.beans.BeanUtils;
+import com.cbcc.bizboot.util.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> find(Menu menu) {
+    public List<Menu> find(MenuQueryDTO menuQueryDTO) {
+        Menu menu = BeanUtils.newAndCopy(menuQueryDTO, Menu.class);
         return menuRepository.findAll(Example.of(menu));
     }
 

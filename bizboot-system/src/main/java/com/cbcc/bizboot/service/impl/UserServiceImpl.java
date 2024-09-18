@@ -1,13 +1,16 @@
 package com.cbcc.bizboot.service.impl;
 
+import com.cbcc.bizboot.entity.Dept;
 import com.cbcc.bizboot.entity.User;
 import com.cbcc.bizboot.entity.UserRole;
 import com.cbcc.bizboot.entity.bo.UserInfo;
+import com.cbcc.bizboot.entity.dto.UserQueryDTO;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.exception.ServiceException;
 import com.cbcc.bizboot.repository.UserRepository;
 import com.cbcc.bizboot.repository.UserRoleRepository;
 import com.cbcc.bizboot.service.UserService;
+import com.cbcc.bizboot.util.BeanUtils;
 import com.google.common.collect.Sets;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -52,7 +55,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> find(User user, Pageable pageable) {
+    public Page<User> find(UserQueryDTO userQueryDTO, Pageable pageable) {
+        User user = BeanUtils.newAndCopy(userQueryDTO, User.class);
+        user.setDept(new Dept(userQueryDTO.getDeptId()));
         return userRepository.findAll(Example.of(user), pageable);
     }
 

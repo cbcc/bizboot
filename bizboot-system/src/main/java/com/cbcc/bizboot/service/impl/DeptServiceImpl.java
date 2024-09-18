@@ -1,10 +1,11 @@
 package com.cbcc.bizboot.service.impl;
 
 import com.cbcc.bizboot.entity.Dept;
+import com.cbcc.bizboot.entity.dto.DeptQueryDTO;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.repository.DeptRepository;
 import com.cbcc.bizboot.service.DeptService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cbcc.bizboot.util.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,15 @@ import java.util.Optional;
 @Service
 public class DeptServiceImpl implements DeptService {
 
-    @Autowired
-    private DeptRepository deptRepository;
+    private final DeptRepository deptRepository;
+
+    public DeptServiceImpl(DeptRepository deptRepository) {
+        this.deptRepository = deptRepository;
+    }
 
     @Override
-    public Page<Dept> find(Dept dept, Pageable pageable) {
+    public Page<Dept> find(DeptQueryDTO deptQueryDTO, Pageable pageable) {
+        Dept dept = BeanUtils.newAndCopy(deptQueryDTO, Dept.class);
         return deptRepository.findAll(Example.of(dept), pageable);
     }
 

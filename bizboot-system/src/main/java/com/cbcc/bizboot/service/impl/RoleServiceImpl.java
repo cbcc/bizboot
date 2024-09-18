@@ -2,10 +2,12 @@ package com.cbcc.bizboot.service.impl;
 
 import com.cbcc.bizboot.entity.Role;
 import com.cbcc.bizboot.entity.RoleMenu;
+import com.cbcc.bizboot.entity.dto.RoleQueryDTO;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.repository.RoleMenuRepository;
 import com.cbcc.bizboot.repository.RoleRepository;
 import com.cbcc.bizboot.service.RoleService;
+import com.cbcc.bizboot.util.BeanUtils;
 import com.google.common.collect.Sets;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -32,7 +34,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Page<Role> find(Role role, Pageable pageable) {
+    public Page<Role> find(RoleQueryDTO roleQueryDTO, Pageable pageable) {
+        Role role = BeanUtils.newAndCopy(roleQueryDTO, Role.class);
         return roleRepository.findAll(Example.of(role), pageable);
     }
 

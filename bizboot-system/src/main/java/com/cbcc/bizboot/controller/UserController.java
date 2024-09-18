@@ -2,8 +2,9 @@ package com.cbcc.bizboot.controller;
 
 import com.cbcc.bizboot.entity.Dept;
 import com.cbcc.bizboot.entity.User;
-import com.cbcc.bizboot.entity.model.EnabledModel;
-import com.cbcc.bizboot.entity.model.UserModel;
+import com.cbcc.bizboot.entity.dto.UserQueryDTO;
+import com.cbcc.bizboot.entity.dto.model.EnabledModel;
+import com.cbcc.bizboot.entity.dto.model.UserModel;
 import com.cbcc.bizboot.service.UserService;
 import com.cbcc.bizboot.util.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,8 +42,8 @@ public class UserController {
 
     @Operation(summary = "分页查询")
     @GetMapping
-    PagedModel<User> find(User user, Pageable pageable) {
-        return new PagedModel<>(userService.find(user, pageable));
+    PagedModel<User> find(UserQueryDTO userQueryDTO, Pageable pageable) {
+        return new PagedModel<>(userService.find(userQueryDTO, pageable));
     }
 
     @Operation(summary = "查询")

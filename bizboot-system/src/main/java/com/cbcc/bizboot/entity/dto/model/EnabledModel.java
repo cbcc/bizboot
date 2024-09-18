@@ -1,4 +1,4 @@
-package com.cbcc.bizboot.entity.model;
+package com.cbcc.bizboot.entity.dto.model;
 
 
 import jakarta.validation.constraints.NotNull;

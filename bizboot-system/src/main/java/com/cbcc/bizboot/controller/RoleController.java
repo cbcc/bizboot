@@ -1,8 +1,9 @@
 package com.cbcc.bizboot.controller;
 
 import com.cbcc.bizboot.entity.Role;
-import com.cbcc.bizboot.entity.model.EnabledModel;
-import com.cbcc.bizboot.entity.model.RoleModel;
+import com.cbcc.bizboot.entity.dto.RoleQueryDTO;
+import com.cbcc.bizboot.entity.dto.model.EnabledModel;
+import com.cbcc.bizboot.entity.dto.model.RoleModel;
 import com.cbcc.bizboot.service.RoleService;
 import com.cbcc.bizboot.util.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +36,8 @@ public class RoleController {
 
     @Operation(summary = "分页查询")
     @GetMapping
-    PagedModel<Role> find(Role role, Pageable pageable) {
-        return new PagedModel<>(roleService.find(role, pageable));
+    PagedModel<Role> find(RoleQueryDTO roleQueryDTO, Pageable pageable) {
+        return new PagedModel<>(roleService.find(roleQueryDTO, pageable));
     }
 
     @Operation(summary = "查询")

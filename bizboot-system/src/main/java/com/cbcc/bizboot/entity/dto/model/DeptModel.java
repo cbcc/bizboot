@@ -1,4 +1,4 @@
-package com.cbcc.bizboot.entity.model;
+package com.cbcc.bizboot.entity.dto.model;
 
 import com.cbcc.bizboot.enums.DeptType;
 import io.swagger.v3.oas.annotations.media.Schema;

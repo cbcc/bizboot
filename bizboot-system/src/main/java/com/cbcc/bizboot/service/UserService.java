@@ -2,6 +2,7 @@ package com.cbcc.bizboot.service;
 
 import com.cbcc.bizboot.entity.User;
 import com.cbcc.bizboot.entity.bo.UserInfo;
+import com.cbcc.bizboot.entity.dto.UserQueryDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     UserInfo getUserInfo(String username);
 
-    Page<User> find(User user, Pageable pageable);
+    Page<User> find(UserQueryDTO userQueryDTO, Pageable pageable);
 
     User findByUsername(String username);
 

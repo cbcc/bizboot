@@ -1,7 +1,8 @@
 package com.cbcc.bizboot.controller;
 
 import com.cbcc.bizboot.entity.Menu;
-import com.cbcc.bizboot.entity.model.MenuModel;
+import com.cbcc.bizboot.entity.dto.MenuQueryDTO;
+import com.cbcc.bizboot.entity.dto.model.MenuModel;
 import com.cbcc.bizboot.enums.MenuType;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.service.MenuService;
@@ -34,8 +35,8 @@ public class MenuController {
 
     @Operation(summary = "列表查询")
     @GetMapping
-    List<Menu> find(Menu menu) {
-        return menuService.find(menu);
+    List<Menu> find(MenuQueryDTO menuQueryDTO) {
+        return menuService.find(menuQueryDTO);
     }
 
     @Operation(summary = "查询")

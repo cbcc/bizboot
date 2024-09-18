@@ -1,4 +1,4 @@
-package com.cbcc.bizboot.entity.model;
+package com.cbcc.bizboot.entity.dto.model;
 
 import com.cbcc.bizboot.enums.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;

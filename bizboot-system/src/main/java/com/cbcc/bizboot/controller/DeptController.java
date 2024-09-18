@@ -1,13 +1,13 @@
 package com.cbcc.bizboot.controller;
 
 import com.cbcc.bizboot.entity.Dept;
-import com.cbcc.bizboot.entity.model.DeptModel;
+import com.cbcc.bizboot.entity.dto.DeptQueryDTO;
+import com.cbcc.bizboot.entity.dto.model.DeptModel;
 import com.cbcc.bizboot.service.DeptService;
 import com.cbcc.bizboot.util.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,13 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/depts")
 public class DeptController {
 
-    @Autowired
-    private DeptService deptService;
+    private final DeptService deptService;
+
+    public DeptController(DeptService deptService) {
+        this.deptService = deptService;
+    }
 
     @Operation(summary = "分页查询")
     @GetMapping
-    PagedModel<Dept> find(Dept dept, Pageable pageable) {
-        return new PagedModel<>(deptService.find(dept, pageable));
+    PagedModel<Dept> find(DeptQueryDTO deptQueryDTO, Pageable pageable) {
+        return new PagedModel<>(deptService.find(deptQueryDTO, pageable));
     }
 
     @Operation(summary = "查询")

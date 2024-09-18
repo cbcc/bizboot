@@ -1,22 +1,17 @@
-package com.cbcc.bizboot.entity.model;
+package com.cbcc.bizboot.entity.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class RoleModel {
+public class RoleQueryDTO {
 
-    @NotBlank(message = "[name]不能为空")
     @Schema(title = "名称")
     private String name;
 
-    @NotBlank(message = "[code]不能为空")
     @Schema(title = "编码")
     private String code;
 
-    @NotNull(message = "[enabled]不能为空")
     @Schema(title = "是否启用")
     private Boolean enabled;
 
