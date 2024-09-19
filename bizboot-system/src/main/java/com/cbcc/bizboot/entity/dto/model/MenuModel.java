@@ -25,7 +25,7 @@ public class MenuModel {
     @Schema(title = "上级菜单Id")
     private Long parentId;
 
-    @Size(max = 16, message = "[title]最大长度为16")
+    @Size(max = 30, message = "[title]最大长度为30")
     @NotBlank(message = "[title]不能为空")
     @Schema(title = "标题")
     private String title;

@@ -10,6 +10,7 @@ import com.cbcc.bizboot.util.BeanUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,10 +55,13 @@ public class UserController {
 
     @Operation(summary = "创建")
     @PostMapping
-    User create(@Valid @RequestBody UserModel userModel) {
+    User create(@Valid @RequestBody UserModel userModel) throws BadRequestException {
         User user = BeanUtils.newAndCopy(userModel, User.class);
         user.setDept(new Dept(userModel.getDeptId()));
         String password = new String(Base64.getDecoder().decode(user.getPassword()));
+        if (password.length() > 30) {
+            throw new BadRequestException("[password]最大长度为30");
+        }
         // 密码加密
         user.setPassword(passwordEncoder.encode(password));
         return userService.create(user);

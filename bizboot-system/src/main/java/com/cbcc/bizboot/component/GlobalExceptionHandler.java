@@ -1,6 +1,7 @@
 package com.cbcc.bizboot.component;
 
 import com.cbcc.bizboot.exception.BadRequestException;
+import com.cbcc.bizboot.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.event.Level;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -20,17 +21,27 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ResponseStatus
-    @ExceptionHandler(Throwable.class)
-    public ResponseEntity<ErrorBody> handlerException(Throwable ex) {
-        return handleException(ex);
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorBody> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(";"));
         return handleException(HttpStatus.BAD_REQUEST, new BadRequestException(message), Level.INFO);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorBody> handlerBadRequestException(BadRequestException ex) {
+        return handleException(HttpStatus.BAD_REQUEST, ex, Level.INFO);
+    }
+
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<ErrorBody> handlerServiceException(BadRequestException ex) {
+        return handleException(HttpStatus.INTERNAL_SERVER_ERROR, ex, Level.ERROR);
+    }
+
+    @ResponseStatus
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<ErrorBody> handlerException(Throwable ex) {
+        return handleException(ex);
     }
 
     private ResponseEntity<ErrorBody> handleException(Throwable ex) {

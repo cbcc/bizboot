@@ -42,7 +42,6 @@ public class UserModel {
     @Schema(title = "邮箱")
     private String email;
 
-    @Size(max = 30, message = "[password]最大长度为30")
     @NotBlank(message = "[password]不能为空")
     @Schema(title = "密码")
     private String password;
