@@ -2,6 +2,7 @@ package com.cbcc.bizboot.service;
 
 import com.cbcc.bizboot.entity.User;
 import com.cbcc.bizboot.entity.bo.UserInfo;
+import com.cbcc.bizboot.entity.dto.UpdatePasswordDTO;
 import com.cbcc.bizboot.entity.dto.UserQueryDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,4 +30,6 @@ public interface UserService {
     void updateRoles(long id, List<Long> roleIds);
 
     void delete(long id);
+
+    void updatePassword(UpdatePasswordDTO updatePasswordDTO);
 }

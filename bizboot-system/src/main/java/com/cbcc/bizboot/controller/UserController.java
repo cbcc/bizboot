@@ -2,6 +2,7 @@ package com.cbcc.bizboot.controller;
 
 import com.cbcc.bizboot.entity.Dept;
 import com.cbcc.bizboot.entity.User;
+import com.cbcc.bizboot.entity.dto.UpdatePasswordDTO;
 import com.cbcc.bizboot.entity.dto.UserQueryDTO;
 import com.cbcc.bizboot.entity.dto.model.EnabledModel;
 import com.cbcc.bizboot.entity.dto.model.UserModel;
@@ -13,7 +14,6 @@ import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -34,11 +34,8 @@ public class UserController {
 
     private final UserService userService;
 
-    private final PasswordEncoder passwordEncoder;
-
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Operation(summary = "分页查询")
@@ -62,8 +59,6 @@ public class UserController {
         if (password.length() > 30) {
             throw new BadRequestException("[password]最大长度为30");
         }
-        // 密码加密
-        user.setPassword(passwordEncoder.encode(password));
         return userService.create(user);
     }
 
@@ -78,7 +73,7 @@ public class UserController {
 
     @Operation(summary = "修改是否启用状态")
     @PatchMapping("/{id}/enabled")
-    void updateEnabled(@PathVariable Long id, @RequestBody EnabledModel enabledModel) {
+    void updateEnabled(@PathVariable Long id, @Valid @RequestBody EnabledModel enabledModel) {
         userService.updateEnabled(id, enabledModel.getEnabled());
     }
 
@@ -98,5 +93,17 @@ public class UserController {
     @DeleteMapping("/{id}")
     void delete(@PathVariable Long id) {
         userService.delete(id);
+    }
+
+    @Operation(summary = "修改当前用户密码")
+    @PatchMapping("/me/password")
+    void updatePassword(@Valid @RequestBody UpdatePasswordDTO updatePasswordDTO) throws BadRequestException {
+        String newPwd = new String(Base64.getDecoder().decode(updatePasswordDTO.getNewPwd()));
+        if (newPwd.length() > 30) {
+            throw new BadRequestException("密码最大长度为30");
+        }
+        updatePasswordDTO.setNewPwd(newPwd);
+        updatePasswordDTO.setOldPwd(new String(Base64.getDecoder().decode(updatePasswordDTO.getOldPwd())));
+        userService.updatePassword(updatePasswordDTO);
     }
 }

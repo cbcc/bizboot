@@ -1,9 +1,11 @@
 package com.cbcc.bizboot.service.impl;
 
+import com.cbcc.bizboot.component.UserInfoHolder;
 import com.cbcc.bizboot.entity.Dept;
 import com.cbcc.bizboot.entity.User;
 import com.cbcc.bizboot.entity.UserRole;
 import com.cbcc.bizboot.entity.bo.UserInfo;
+import com.cbcc.bizboot.entity.dto.UpdatePasswordDTO;
 import com.cbcc.bizboot.entity.dto.UserQueryDTO;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.exception.ServiceException;
@@ -15,6 +17,7 @@ import com.google.common.collect.Sets;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,13 +30,20 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserInfoHolder userInfoHolder;
+
     private final UserRepository userRepository;
 
     private final UserRoleRepository userRoleRepository;
 
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserInfoHolder userInfoHolder, UserRepository userRepository,
+                           UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
+        this.userInfoHolder = userInfoHolder;
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -80,6 +90,8 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isPresent()) {
             throw new BadRequestException(MessageFormat.format("用户名称已存在. username = {0}", username));
         }
+        // 密码加密
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -140,5 +152,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void updatePassword(UpdatePasswordDTO updatePasswordDTO) {
+        String username = userInfoHolder.getUserInfo().getUsername();
+        User user = findByUsername(username);
+        String userPassword = user.getPassword();
+        if (!passwordEncoder.matches(updatePasswordDTO.getOldPwd(), userPassword)) {
+            throw new BadRequestException("密码错误.");
+        }
+        if (passwordEncoder.matches(updatePasswordDTO.getNewPwd(), userPassword)) {
+            throw new BadRequestException("新密码不能与旧密码相同.");
+        }
+        user.setPassword(passwordEncoder.encode(updatePasswordDTO.getNewPwd()));
+        userRepository.save(user);
     }
 }
