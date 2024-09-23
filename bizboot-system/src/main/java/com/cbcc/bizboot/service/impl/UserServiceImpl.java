@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         String username = user.getUsername();
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
-            throw new BadRequestException(MessageFormat.format("用户名称已存在. username = {0}", username));
+            throw new BadRequestException(MessageFormat.format("用户名已存在. username = {0}", username));
         }
         // 密码加密
         user.setPassword(passwordEncoder.encode(user.getPassword()));

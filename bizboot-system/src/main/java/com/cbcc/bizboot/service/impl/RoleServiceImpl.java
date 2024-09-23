@@ -9,6 +9,7 @@ import com.cbcc.bizboot.repository.RoleRepository;
 import com.cbcc.bizboot.service.RoleService;
 import com.cbcc.bizboot.util.BeanUtils;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,6 +48,14 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role create(Role role) {
+        roleRepository.findByName(role.getName())
+                .ifPresent(it -> {
+                    throw new BadRequestException(MessageFormat.format("角色名称已存在. name = {0}", role.getName()));
+                });
+        roleRepository.findByCode(role.getCode())
+                .ifPresent(it -> {
+                    throw new BadRequestException(MessageFormat.format("角色标识已存在. code = {0}", role.getCode()));
+                });
         return roleRepository.save(role);
     }
 
@@ -58,6 +67,19 @@ public class RoleServiceImpl implements RoleService {
             throw new BadRequestException(MessageFormat.format("角色不存在. id = {0}", role.getId()));
         }
         Role roleToUpdate = optionalRole.get();
+        if (!StringUtils.equalsIgnoreCase(role.getName(), roleToUpdate.getName())) {
+            roleRepository.findByName(role.getName())
+                    .ifPresent(it -> {
+                        throw new BadRequestException(MessageFormat.format("角色名称已存在. name = {0}", role.getName()));
+                    });
+        }
+        if (!StringUtils.equalsIgnoreCase(role.getCode(), roleToUpdate.getCode())) {
+            roleRepository.findByCode(role.getCode())
+                    .ifPresent(it -> {
+                        throw new BadRequestException(MessageFormat.format("角色标识已存在. code = {0}", role.getCode()));
+                    });
+        }
+
         roleToUpdate.setName(role.getName());
         roleToUpdate.setCode(role.getCode());
         roleToUpdate.setEnabled(role.getEnabled());

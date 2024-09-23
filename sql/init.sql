@@ -35,7 +35,9 @@ CREATE TABLE `role` (
   `created_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '创建人账号',
   `last_modified_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   `last_modified_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '最后修改人账号',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE `name`(`name`),
+  UNIQUE `code`(`code`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 -- 用户角色关联表
@@ -120,7 +122,7 @@ INSERT INTO `dept` VALUES (1, 0, '丐帮', 1, 0, 1, '', '2024-09-15 00:00:00', '
 INSERT INTO `user` VALUES (1, 'admin', 'admin', 0, 1, '13411111111', '', '{noop}admin123', 1, '2024-09-15 00:00:00', 'system', '2024-09-19 13:03:36', 'system');
 INSERT INTO `user` VALUES (2, 'common', 'common', 0, 1, '13411111112', '', '{noop}admin123', 1, '2024-09-15 00:00:00', 'system', '2024-09-19 13:03:39', 'system');
 
-INSERT INTO `role` VALUES (1, '超级管理员', 'system', '超级管理员拥有最高权限', 1, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `role` VALUES (1, '超级管理员', 'admin', '超级管理员拥有最高权限', 1, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
 INSERT INTO `role` VALUES (2, '普通', 'common', '普通角色', 1, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
 
 INSERT INTO `menu` VALUES (1, 0, 0, '权限管理', 'Permission', '/permission', '', 'ep:lollipop', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 10, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
