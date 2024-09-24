@@ -125,14 +125,19 @@ INSERT INTO `user` VALUES (2, 'common', 'common', 0, 1, '13411111112', '', '{noo
 INSERT INTO `role` VALUES (1, '超级管理员', 'admin', '超级管理员拥有最高权限', 1, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
 INSERT INTO `role` VALUES (2, '普通', 'common', '普通角色', 1, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
 
-INSERT INTO `menu` VALUES (1, 0, 0, '权限管理', 'Permission', '/permission', '', 'ep:lollipop', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 10, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
-INSERT INTO `menu` VALUES (2, 0, 1, '页面权限', 'PermissionPage', '/permission/page/index', '', '', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
-INSERT INTO `menu` VALUES (3, 0, 1, '按钮权限', 'PermissionButtonRouter', '/permission/button', '', '', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
-INSERT INTO `menu` VALUES (4, 0, 3, '路由返回按钮权限', 'PermissionButtonRouter', '/permission/button/router', 'permission/button/index', '', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
-INSERT INTO `menu` VALUES (5, 0, 3, '登录接口返回按钮权限', 'PermissionButtonLogin', '/permission/button/login', 'permission/button/perms', '', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
-INSERT INTO `menu` VALUES (6, 3, 4, 'permission:btn:add', '', '', '', '', '', '', '', '', '', 'permission:btn:add', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
-INSERT INTO `menu` VALUES (7, 3, 4, 'permission:btn:edit', '', '', '', '', '', '', '', '', '', 'permission:btn:edit', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
-INSERT INTO `menu` VALUES (8, 3, 4, 'permission:btn:delete', '', '', '', '', '', '', '', '', '', 'permission:btn:delete', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (1, 0, 0, '系统管理', 'System', '/system', '', 'ri:settings-3-line', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 2, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (2, 0, 1, '用户管理', 'SystemUser', '/system/user', '/system/user/index', 'ri:admin-line', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 1, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (3, 0, 1, '角色管理', 'SystemRole', '/system/role', '/system/role/index', 'ri:admin-fill', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 2, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (4, 0, 1, '菜单管理', 'SystemMenu', '/system/menu', '/system/menu/index', 'ep:menu', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 3, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (5, 0, 1, '部门管理', 'SystemDept', '/system/dept', '/system/dept/index', 'ri:git-branch-line', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 4, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (6, 0, 0, '权限管理', 'Permission', '/permission', '', 'ep:lollipop', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 10, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (7, 0, 6, '页面权限', 'PermissionPage', '/permission/page/index', '', '', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (8, 0, 6, '按钮权限', 'PermissionButtonRouter', '/permission/button', '', '', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (9, 0, 8, '路由返回按钮权限', 'PermissionButtonRouter', '/permission/button/router', 'permission/button/index', '', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (10, 0, 8, '登录接口返回按钮权限', 'PermissionButtonLogin', '/permission/button/login', 'permission/button/perms', '', '', '', '', '', '', '', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (11, 3, 9, 'permission:btn:add', '', '', '', '', '', '', '', '', '', 'permission:btn:add', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (12, 3, 9, 'permission:btn:edit', '', '', '', '', '', '', '', '', '', 'permission:btn:edit', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `menu`  VALUES (13, 3, 9, 'permission:btn:delete', '', '', '', '', '', '', '', '', '', 'permission:btn:delete', '', 0, 0, 0, 0, 1, 0, 99, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
 
 INSERT INTO `user_role` VALUES (1, 1, 1, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
 INSERT INTO `user_role` VALUES (2, 2, 2, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
@@ -145,3 +150,8 @@ INSERT INTO `role_menu` VALUES (5, 1, 5, '2024-09-15 00:00:00', 'system', '2024-
 INSERT INTO `role_menu` VALUES (6, 1, 6, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
 INSERT INTO `role_menu` VALUES (7, 1, 7, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
 INSERT INTO `role_menu` VALUES (8, 1, 8, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `role_menu` VALUES (9, 1, 9, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `role_menu` VALUES (10, 1, 10, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `role_menu` VALUES (11, 1, 11, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `role_menu` VALUES (12, 1, 12, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
+INSERT INTO `role_menu` VALUES (13, 1, 13, '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
