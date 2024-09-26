@@ -1,35 +1,18 @@
+spring:
+  profiles:
+    active: dev
+  jpa:
+    open-in-view: true
+  jackson:
+    default-property-inclusion: non_null
+
 server:
   port: 8080
   servlet:
     context-path: /
 
-spring:
-  datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/bizboot-system?serverTimezone=UTC
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    open-in-view: true
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-  jackson:
-    default-property-inclusion: non_null
-
 logging:
-  path: log
+  file:
+    name: ./log/app.log
   level:
     root: info
-
-bizboot:
-  jwt:
-    access-token:
-      secret-key: "myaccesssecretkey1234567890abcdefghijkl"
-      # 过期时间：8小时
-      duration: 8
-    refresh-token:
-      secret-key: "myrefreshsecretkey1234567890mnopqrstuv"
-      # 过期时间：7天
-      duration: 192

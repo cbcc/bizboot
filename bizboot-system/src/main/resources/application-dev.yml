@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/bizboot-system?serverTimezone=UTC
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+logging:
+  file:
+    name: ./log/app.log
+  level:
+    root: info
+
+bizboot:
+  jwt:
+    access-token:
+      secret-key: "myaccesssecretkey1234567890abcdefghijkl"
+      # 过期时间：8小时
+      duration: 8
+    refresh-token:
+      secret-key: "myrefreshsecretkey1234567890mnopqrstuv"
+      # 过期时间：7天
+      duration: 192
