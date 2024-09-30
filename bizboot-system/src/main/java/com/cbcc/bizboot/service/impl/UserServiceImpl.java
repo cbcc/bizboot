@@ -6,6 +6,7 @@ import com.cbcc.bizboot.entity.User;
 import com.cbcc.bizboot.entity.UserRole;
 import com.cbcc.bizboot.entity.bo.UserInfo;
 import com.cbcc.bizboot.entity.dto.UpdatePasswordDTO;
+import com.cbcc.bizboot.entity.dto.UpdateUserDTO;
 import com.cbcc.bizboot.entity.dto.UserQueryDTO;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.exception.ServiceException;
@@ -96,19 +97,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
+    public void update(UpdateUserDTO updateUserDTO) {
+        Long userId = updateUserDTO.getId();
+        Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
-            throw new BadRequestException(MessageFormat.format("用户不存在. id = {0}", user.getId()));
+            throw new BadRequestException(MessageFormat.format("用户不存在. id = {0}", userId));
         }
         User userToUpdate = optionalUser.get();
-        userToUpdate.setNickname(user.getNickname());
-        userToUpdate.setGender(user.getGender());
-        userToUpdate.setPhone(user.getPhone());
-        userToUpdate.setEmail(user.getEmail());
-        userToUpdate.setPassword(user.getPassword());
-        userToUpdate.setEnabled(user.getEnabled());
-        userToUpdate.setDept(user.getDept());
+        userToUpdate.setNickname(updateUserDTO.getNickname());
+        userToUpdate.setGender(updateUserDTO.getGender());
+        userToUpdate.setPhone(updateUserDTO.getPhone());
+        userToUpdate.setEmail(updateUserDTO.getEmail());
+        userToUpdate.setEnabled(updateUserDTO.getEnabled());
+        userToUpdate.setDept(new Dept(updateUserDTO.getDeptId()));
         userRepository.save(userToUpdate);
     }
 

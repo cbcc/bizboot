@@ -3,6 +3,7 @@ package com.cbcc.bizboot.controller;
 import com.cbcc.bizboot.entity.Dept;
 import com.cbcc.bizboot.entity.User;
 import com.cbcc.bizboot.entity.dto.UpdatePasswordDTO;
+import com.cbcc.bizboot.entity.dto.UpdateUserDTO;
 import com.cbcc.bizboot.entity.dto.UserQueryDTO;
 import com.cbcc.bizboot.entity.dto.model.EnabledModel;
 import com.cbcc.bizboot.entity.dto.model.UserModel;
@@ -64,11 +65,9 @@ public class UserController {
 
     @Operation(summary = "修改")
     @PutMapping("/{id}")
-    void update(@PathVariable Long id, @Valid @RequestBody UserModel userModel) {
-        User user = BeanUtils.newAndCopy(userModel, User.class);
-        user.setId(id);
-        user.setDept(new Dept(userModel.getDeptId()));
-        userService.update(user);
+    void update(@PathVariable Long id, @Valid @RequestBody UpdateUserDTO updateUserDTO) {
+        updateUserDTO.setId(id);
+        userService.update(updateUserDTO);
     }
 
     @Operation(summary = "修改是否启用状态")

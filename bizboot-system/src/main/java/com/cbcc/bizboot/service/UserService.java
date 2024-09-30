@@ -3,6 +3,7 @@ package com.cbcc.bizboot.service;
 import com.cbcc.bizboot.entity.User;
 import com.cbcc.bizboot.entity.bo.UserInfo;
 import com.cbcc.bizboot.entity.dto.UpdatePasswordDTO;
+import com.cbcc.bizboot.entity.dto.UpdateUserDTO;
 import com.cbcc.bizboot.entity.dto.UserQueryDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ public interface UserService {
 
     User create(User user);
 
-    void update(User user);
+    void update(UpdateUserDTO updateUserDTO);
 
     void updateEnabled(long id, boolean enabled);
 
