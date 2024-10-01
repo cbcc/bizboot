@@ -4,11 +4,16 @@ import com.cbcc.bizboot.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 @Getter
 @Setter
@@ -17,6 +22,7 @@ import lombok.Setter;
         name = "User.dept",
         attributeNodes = @NamedAttributeNode("dept")
 )
+@Table(name = "`user`")
 public class User extends BaseEntity {
 
     @Schema(title = "用户名")
@@ -44,6 +50,7 @@ public class User extends BaseEntity {
     private Boolean enabled;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(NO_CONSTRAINT))
     @Schema(title = "部门")
     private Dept dept;
 }

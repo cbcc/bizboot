@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:~/bizboot-system;mode=mysql;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+logging:
+  file:
+    name: ./log/app.log
+  level:
+    root: info
+
+bizboot:
+  jwt:
+    access-token:
+      secret-key: "myaccesssecretkey1234567890abcdefghijkl"
+      # 过期时间：8小时
+      duration: 8
+    refresh-token:
+      secret-key: "myrefreshsecretkey1234567890mnopqrstuv"
+      # 过期时间：7天
+      duration: 192
