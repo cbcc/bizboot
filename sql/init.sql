@@ -115,6 +115,34 @@ CREATE TABLE `dept` (
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='部门表';
 
+-- 通知表
+DROP TABLE IF EXISTS `notification`;
+create table `notification` (
+  `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `title` VARCHAR(64) NOT NULL COMMENT '标题',
+  `context` VARCHAR(2048) NULL DEFAULT NULL COMMENT '内容',
+  `type` TINYINT UNSIGNED NOT NULL COMMENT '类型 0-公告 1-消息',
+  `active` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否生效 0-否 1-是',
+  `created_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `created_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '创建人账号',
+  `last_modified_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `last_modified_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '最后修改人账号',
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='通知表';
+
+-- 用户通知阅读表
+DROP TABLE IF EXISTS `user_notification_read`;
+CREATE TABLE `user_notification_read` (
+  `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` INT(16) UNSIGNED NOT NULL COMMENT '用户Id',
+  `notification_id` INT(16) UNSIGNED NOT NULL COMMENT '通知Id',
+  `created_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `created_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '创建人账号',
+  `last_modified_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `last_modified_by` VARCHAR(32) NOT NULL DEFAULT 'system' COMMENT '最后修改人账号',
+  PRIMARY KEY (`id`),
+  UNIQUE `user_notification`(`user_id`, `notification_id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户通知阅读表';
 
 -- 初始数据
 INSERT INTO `dept` VALUES (1, 0, '丐帮', 1, 0, 1, '', '2024-09-15 00:00:00', 'system', '2024-09-15 00:00:00', 'system');
