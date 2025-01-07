@@ -1,10 +1,14 @@
 package com.cbcc.bizboot.service.impl;
 
+import com.cbcc.bizboot.component.UserInfoHolder;
 import com.cbcc.bizboot.entity.Notification;
+import com.cbcc.bizboot.entity.User;
+import com.cbcc.bizboot.entity.dto.NotificationDTO;
 import com.cbcc.bizboot.entity.dto.NotificationQueryDTO;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.repository.NotificationRepository;
 import com.cbcc.bizboot.service.NotificationService;
+import com.cbcc.bizboot.service.UserService;
 import com.cbcc.bizboot.util.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -18,9 +22,16 @@ import java.util.Optional;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
+    private final UserInfoHolder userInfoHolder;
+
+    private final UserService userService;
+
     private final NotificationRepository notificationRepository;
 
-    public NotificationServiceImpl(NotificationRepository notificationRepository) {
+    public NotificationServiceImpl(UserInfoHolder userInfoHolder, UserService userService,
+                                   NotificationRepository notificationRepository) {
+        this.userInfoHolder = userInfoHolder;
+        this.userService = userService;
         this.notificationRepository = notificationRepository;
     }
 
@@ -34,6 +45,13 @@ public class NotificationServiceImpl implements NotificationService {
     public Notification get(long id) {
         return notificationRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException(MessageFormat.format("通知不存在. id = {0}", id)));
+    }
+
+    @Override
+    public Page<NotificationDTO> getByCurrentUser(int type, Pageable pageable) {
+        String username = userInfoHolder.getUserInfo().getUsername();
+        User user = userService.findByUsername(username);
+        return notificationRepository.findWithReadByUserIdAndTypeOrderByCreatedTimeDesc(user.getId(), type, pageable);
     }
 
     @Override

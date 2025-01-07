@@ -1,6 +1,7 @@
 package com.cbcc.bizboot.controller;
 
 import com.cbcc.bizboot.entity.Notification;
+import com.cbcc.bizboot.entity.dto.NotificationDTO;
 import com.cbcc.bizboot.entity.dto.NotificationQueryDTO;
 import com.cbcc.bizboot.entity.dto.model.ActiveModel;
 import com.cbcc.bizboot.entity.dto.model.NotificationModel;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "通知公告接口")
@@ -42,6 +44,12 @@ public class NotificationController {
     @GetMapping("/{id}")
     Notification get(@PathVariable Long id) {
         return notificationService.get(id);
+    }
+
+    @Operation(summary = "查询当前用户通知")
+    @GetMapping("/me")
+    PagedModel<NotificationDTO> getByCurrentUser(@RequestParam("type") Integer type, Pageable pageable) {
+        return new PagedModel<>(notificationService.getByCurrentUser(type, pageable));
     }
 
     @Operation(summary = "创建")
