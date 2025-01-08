@@ -3,10 +3,12 @@ package com.cbcc.bizboot.service.impl;
 import com.cbcc.bizboot.component.UserInfoHolder;
 import com.cbcc.bizboot.entity.Notification;
 import com.cbcc.bizboot.entity.User;
+import com.cbcc.bizboot.entity.UserNotificationRead;
 import com.cbcc.bizboot.entity.dto.NotificationDTO;
 import com.cbcc.bizboot.entity.dto.NotificationQueryDTO;
 import com.cbcc.bizboot.exception.BadRequestException;
 import com.cbcc.bizboot.repository.NotificationRepository;
+import com.cbcc.bizboot.repository.UserNotificationReadRepository;
 import com.cbcc.bizboot.service.NotificationService;
 import com.cbcc.bizboot.service.UserService;
 import com.cbcc.bizboot.util.BeanUtils;
@@ -28,11 +30,15 @@ public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;
 
+    private final UserNotificationReadRepository userNotificationReadRepository;
+
     public NotificationServiceImpl(UserInfoHolder userInfoHolder, UserService userService,
-                                   NotificationRepository notificationRepository) {
+                                   NotificationRepository notificationRepository,
+                                   UserNotificationReadRepository userNotificationReadRepository) {
         this.userInfoHolder = userInfoHolder;
         this.userService = userService;
         this.notificationRepository = notificationRepository;
+        this.userNotificationReadRepository = userNotificationReadRepository;
     }
 
     @Override
@@ -52,6 +58,26 @@ public class NotificationServiceImpl implements NotificationService {
         String username = userInfoHolder.getUserInfo().getUsername();
         User user = userService.findByUsername(username);
         return notificationRepository.findWithReadByUserIdAndTypeOrderByCreatedTimeDesc(user.getId(), type, pageable);
+    }
+
+    @Override
+    public long getUnReadCount(int type) {
+        String username = userInfoHolder.getUserInfo().getUsername();
+        User user = userService.findByUsername(username);
+        return notificationRepository.countUnReadByUserIdAndType(user.getId(), type);
+    }
+
+    @Override
+    public void read(long id) {
+        String username = userInfoHolder.getUserInfo().getUsername();
+        User user = userService.findByUsername(username);
+        Long userId = user.getId();
+
+        boolean existed = userNotificationReadRepository.existsByUserIdAndNotificationId(userId, id);
+        if (!existed) {
+            UserNotificationRead userNotificationRead = new UserNotificationRead(userId, id);
+            userNotificationReadRepository.save(userNotificationRead);
+        }
     }
 
     @Override

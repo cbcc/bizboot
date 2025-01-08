@@ -52,6 +52,18 @@ public class NotificationController {
         return new PagedModel<>(notificationService.getByCurrentUser(type, pageable));
     }
 
+    @Operation(summary = "查询当前用户未读通知数量")
+    @GetMapping("/me/unread/count")
+    Long getUnReadCount(@RequestParam("type") Integer type) {
+        return notificationService.getUnReadCount(type);
+    }
+
+    @Operation(summary = "标记为已读")
+    @PatchMapping("/me/{id}/read")
+    void read(@PathVariable Long id) {
+        notificationService.read(id);
+    }
+
     @Operation(summary = "创建")
     @PostMapping
     Notification create(@Valid @RequestBody NotificationModel model) {

@@ -14,6 +14,10 @@ public interface NotificationService {
 
     Page<NotificationDTO> getByCurrentUser(int type, Pageable pageable);
 
+    long getUnReadCount(int type);
+
+    void read(long id);
+
     Notification create(Notification notification);
 
     void update(Notification notification);

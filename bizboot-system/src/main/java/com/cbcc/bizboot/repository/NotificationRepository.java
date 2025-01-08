@@ -15,12 +15,21 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     void updateActiveById(long id, boolean active);
 
     @Query("""
-                SELECT new com.cbcc.bizboot.entity.dto.NotificationDTO(n, (u.id IS NOT NULL))
-                FROM Notification n
-                LEFT JOIN UserNotificationRead u
-                    ON n.id = u.notificationId AND u.userId = :userId
-                WHERE n.type = :type
-                order by n.createdTime desc
-                """)
+            SELECT new com.cbcc.bizboot.entity.dto.NotificationDTO(n, (u.id IS NOT NULL))
+            FROM Notification n
+            LEFT JOIN UserNotificationRead u
+                ON n.id = u.notificationId AND u.userId = :userId
+            WHERE n.type = :type
+            order by n.createdTime desc
+            """)
     Page<NotificationDTO> findWithReadByUserIdAndTypeOrderByCreatedTimeDesc(long userId, int type, Pageable pageable);
+
+    @Query("""
+            SELECT COUNT(*)
+            FROM Notification n
+            LEFT JOIN UserNotificationRead u
+                ON n.id = u.notificationId AND u.userId = :userId
+            WHERE n.type = :type and u.id IS NULL
+            """)
+    long countUnReadByUserIdAndType(long userId, int type);
 }
